@@ -5,8 +5,8 @@
 *A short description of the keyboard/project*
 
 * Keyboard Maintainer: [joaoneves792](https://github.com/joaoneves792)
-* Hardware Supported: *The PCBs, controllers supported*
-* Hardware Availability: *Links to where you can find this hardware*
+* Hardware Supported: rp2040
+* Hardware Availability: none, this is handwired
 
 Make example for this keyboard (after setting up your build environment):
 
