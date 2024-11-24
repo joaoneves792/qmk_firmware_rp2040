@@ -10,6 +10,7 @@
         "console": false,
         "extrakey": true,
         "mousekey": true,
+        "encoder": true,
         "nkro": true,
         "oled": true
     },
@@ -17,12 +18,20 @@
         "cols": ["GP7", "GP8", "GP9", "GP10"],
         "rows": ["GP15", "GP14", "GP13", "GP12", "GP11"]
     },
+    "encoder": {
+      "rotary": [
+         {"pin_a": "GP4", "pin_b": "GP5"}
+      ]
+    },
     "processor": "RP2040",
     "url": "",
     "usb": {
         "device_version": "1.0.0",
         "pid": "0x0001",
         "vid": "0x4954"
+    },
+    "bootmagic": {
+        "matrix": [0,0]
     },
     "layouts": {
         "LAYOUT": {

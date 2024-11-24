@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "neves7.h"
 
+extern uint8_t calc_precision;
+
 void change_encoder_mode(bool reverse) {
     if (reverse) {
         if (encoder_mode == 0) {
@@ -29,87 +31,99 @@ void change_encoder_mode(bool reverse) {
     }
 }
 
+void change_calc_base(bool reverse) {
+    if (reverse) {
+        if (calc_base == 0) {
+            calc_base = _NUM_CALC_BASES - 1;
+        } else {
+            calc_base = calc_base - 1;
+        }
+    } else {
+        calc_base = (calc_base + 1) % _NUM_CALC_BASES;
+    }
+}
+
 uint16_t handle_encoder_cw(void) {
     uint16_t mapped_code = 0;
 
-    if (oled_mode == OLED_MODE_CALC) {
-        layer_on(2);
-        return mapped_code;
-    }
+    switch (get_highest_layer(layer_state)) {
+      default:
+      case 0: //PAD MODE
+        switch (encoder_mode) {
+            default:
+            case ENC_MODE_VOLUME:
+                mapped_code = KC_VOLU;
+                break;
+            case ENC_MODE_BRIGHTNESS:
+                mapped_code = KC_BRIGHTNESS_UP;
+                break;
+        }
+        break;
 
-    switch (encoder_mode) {
-        default:
-        case ENC_MODE_VOLUME:
-            mapped_code = KC_VOLU;
-            break;
-        case ENC_MODE_MEDIA:
-            mapped_code = KC_MEDIA_NEXT_TRACK;
-            break;
-        case ENC_MODE_BRIGHTNESS:
-            mapped_code = KC_BRIGHTNESS_UP;
-            break;
-    }
-
+      case 1: //Calculator mode
+        switch (encoder_mode) {
+            default:
+            case ENC_MODE_VOLUME:
+                calc_precision = ( calc_precision + 1 ) % 10;
+                calcUpdate();
+                break;
+            case ENC_MODE_BRIGHTNESS:
+                change_calc_base(false);
+                calcUpdate();
+                break;
+        }
+        break;
+      }
     return mapped_code;
 }
 
 uint16_t handle_encoder_ccw(void) {
     uint16_t mapped_code = 0;
 
-    if (oled_mode == OLED_MODE_CALC) {
-        layer_off(2);
-        return mapped_code;
+    switch (get_highest_layer(layer_state)) {
+      default:
+      case 0: //PAD MODE
+        switch (encoder_mode) {
+            default:
+            case ENC_MODE_VOLUME:
+                mapped_code = KC_VOLD;
+                break;
+            case ENC_MODE_BRIGHTNESS:
+                mapped_code = KC_BRIGHTNESS_DOWN;
+                break;
+        }
+        break;
+      case 1: //Calculator mode
+        switch (encoder_mode) {
+            default:
+            case ENC_MODE_VOLUME:
+                calc_precision = (calc_precision == 0)? 10 : calc_precision;
+                calc_precision = ( calc_precision - 1 ) % 10;
+                calcUpdate();
+                break;
+            case ENC_MODE_BRIGHTNESS:
+                change_calc_base(true);
+                calcUpdate();
+                break;
+        }
+        break;
     }
-
-    switch (encoder_mode) {
-        default:
-        case ENC_MODE_VOLUME:
-            mapped_code = KC_VOLD;
-            break;
-        case ENC_MODE_MEDIA:
-            mapped_code = KC_MEDIA_PREV_TRACK;
-            break;
-        case ENC_MODE_BRIGHTNESS:
-            mapped_code = KC_BRIGHTNESS_DOWN;
-            break;
-    }
-
     return mapped_code;
 }
 
 uint16_t handle_encoder_press(void) {
     uint16_t mapped_code = 0;
-    if (get_highest_layer(layer_state) == 1) {
-        if (oled_mode == OLED_MODE_CALC) {
-            layer_on(3);
-        }
-        layer_off(1);
-        return mapped_code;
-    } else if (get_highest_layer(layer_state) == 2) {
-        if (oled_mode == OLED_MODE_CALC) {
-            layer_off(1);
-            layer_on(3);
-        } else {
-            layer_on(1);
-        }
-        layer_off(2);
-        return mapped_code;
-    } else if (get_highest_layer(layer_state) == 3) {
-        if (oled_mode == OLED_MODE_OFF) {
-            layer_off(3);
-        }
-        return mapped_code;
-    }
+    change_encoder_mode(false);
 
-    switch (encoder_mode) {
-        default:
-        case ENC_MODE_VOLUME:
-            mapped_code = KC_MUTE;
-            break;
-        case ENC_MODE_MEDIA:
-            mapped_code = KC_MEDIA_PLAY_PAUSE;
-            break;
-    }
+    //switch (encoder_mode) {
+    //    default:
+    //    case ENC_MODE_VOLUME:
+    //        mapped_code = KC_MUTE;
+    //        break;
+    //    case ENC_MODE_MEDIA:
+    //        mapped_code = KC_MEDIA_PLAY_PAUSE;
+    //        break;
+    //}
 
     return mapped_code;
 }

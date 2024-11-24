@@ -50,19 +50,22 @@ void render_layer_section(void) {
 }
 
 void render_encoder_section(void) {
-
-    oled_set_cursor(oled_max_chars()-7, 0);
-    oled_write_P(PSTR("ENC"), false);
+    oled_set_cursor(oled_max_chars()-8, 1);
+    oled_write_P(PSTR("ENC:"), false);
+    uint8_t layer = get_highest_layer(layer_state);
     switch (encoder_mode) {
         default:
         case ENC_MODE_VOLUME:
-            oled_write_P(PSTR("VOL "), false);
-            break;
-        case ENC_MODE_MEDIA:
-            oled_write_P(PSTR("MEDI"), false);
+            if(layer == 0)
+              oled_write_P(PSTR("VOL "), false);
+            else
+              oled_write_P(PSTR("PREC"), false);
             break;
         case ENC_MODE_BRIGHTNESS:
-            oled_write_P(PSTR("BRIT"), false);
+            if(layer == 0)
+              oled_write_P(PSTR("BRIG"), false);
+            else
+              oled_write_P(PSTR("BASE"), false);
             break;
     }
 }
@@ -97,6 +100,7 @@ void render_frame(void) {
     if (oled_logo_expired) {
         render_leds_section();
         render_layer_section();
+        render_encoder_section();
         if (oled_mode == OLED_MODE_DEFAULT) {
           //empty
         } else if (oled_mode == OLED_MODE_CALC) {

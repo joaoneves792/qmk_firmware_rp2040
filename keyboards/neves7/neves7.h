@@ -24,7 +24,8 @@ enum rubi_keycodes {
     ENC_PRESS = QK_KB_0,
     CL_PLUS,
     CL_STAR,
-    CL_TYPE
+    CL_TYPE,
+    CL_ENTER
 };
 
 enum oled_modes {
@@ -36,7 +37,6 @@ enum oled_modes {
 
 enum encoder_modes {
     ENC_MODE_VOLUME,
-    ENC_MODE_MEDIA,
     ENC_MODE_BRIGHTNESS,
     _NUM_ENCODER_MODES
 };
@@ -45,6 +45,15 @@ extern uint8_t current_layer;
 extern uint8_t oled_mode;
 extern uint8_t encoder_mode;
 
+uint8_t calc_precision;
+enum calc_bases {
+  CALC_BASE_DEC,
+  CALC_BASE_HEX,
+  CALC_BASE_BIN,
+  CALC_BASE_OCT,
+  _NUM_CALC_BASES
+};
+extern uint8_t calc_base;
 
 #define CALC_MAX_BUFFER 20
 extern char calc_buffer[CALC_MAX_BUFFER];

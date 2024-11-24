@@ -21,6 +21,7 @@ char calc_result_display[CALC_DIGITS+1] = "";
 char calc_operator_display = ' ';
 char calc_status_display[CALC_DIGITS+1] = "";
 uint8_t calc_display_lines = 2;
+uint8_t calc_precision = 2;
 
 const char keycode_to_ascii_lut[58] = {0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 0, 0, 0, '\t', ' ', '-', '=', '[', ']', '\\', 0, ';', '\'', '`', ',', '.', '/'};
 
@@ -54,7 +55,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             return false;
         case CL_TYPE:
             if (record->event.pressed) {
-                send_string(calc_result_display);
+                send_string(calc_result_buffer);
             }
             return false;
         default:
@@ -62,4 +63,22 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     }
 
     return process_record_user_oled(keycode, record);
+}
+
+bool encoder_update_kb(uint8_t index, bool clockwise) {
+    if (!encoder_update_user(index, clockwise)) {
+      return false; /* Don't process further events if user function exists and returns false */
+    }
+    if (index == 0) { /* First encoder */
+        uint16_t mapped_code = 0;
+        if (clockwise) {
+            mapped_code = handle_encoder_cw();
+        } else {
+            mapped_code = handle_encoder_ccw();
+        }
+        if (mapped_code != 0){
+          tap_code16(mapped_code);
+        }
+    } 
+    return true;
 }
