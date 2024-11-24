@@ -1,5 +1,6 @@
 %include {
 #include "parser.h"
+#include <math.h>
 struct Context {
     double result;
     char error;
@@ -7,6 +8,7 @@ struct Context {
 }
 %left ADD SUB.
 %left MUL DIV.
+%left POW.
 %token_type { double }
 %extra_argument { struct Context * context }
 
@@ -24,6 +26,9 @@ expr(A) ::= expr(B) SUB expr(C).
 
 expr(A) ::= expr(B) MUL expr(C).
     { A = B * C; }
+
+expr(A) ::= expr(B) POW expr(C).
+    { A = pow(B,C); }
 
 expr(A) ::= expr(B) DIV expr(C).
     { A = B / C; }

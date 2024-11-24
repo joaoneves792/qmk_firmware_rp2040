@@ -6,3 +6,4 @@ SRC += lib/oled.c \
 		 grammar/parser.c
 
 CFLAGS += -Wno-unused-variable -Wno-unused-but-set-variable
+AUTO_SHIFT_ENABLE = yes

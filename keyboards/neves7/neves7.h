@@ -25,7 +25,8 @@ enum rubi_keycodes {
     CL_PLUS,
     CL_STAR,
     CL_TYPE,
-    CL_ENTER
+    CL_ENTER,
+    CL_CARRET
 };
 
 enum oled_modes {

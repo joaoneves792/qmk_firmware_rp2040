@@ -71,7 +71,7 @@ void calc_print(double val){
   
   switch(calc_base){
     case CALC_BASE_HEX:
-      snprintf(calc_result_buffer, CALC_MAX_BUFFER, "%#0*lX", calc_precision, (unsigned long)val);
+      snprintf(calc_result_buffer, CALC_MAX_BUFFER, "0x%0*lX", calc_precision-2, (unsigned long)val);
       break;
     case CALC_BASE_OCT:
       snprintf(calc_result_buffer, CALC_MAX_BUFFER, "%#0*lo", calc_precision, (unsigned long)val);

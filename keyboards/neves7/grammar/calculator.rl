@@ -9,6 +9,7 @@ main := |*
 '+'                      { Parse(parser, ADD, 0, context); };
 '-'                      { Parse(parser, SUB, 0, context); };
 '*'                      { Parse(parser, MUL, 0, context); };
+'^'                      { Parse(parser, POW, 0, context); };
 '/'                      { Parse(parser, DIV, 0, context); };
 '('                      { Parse(parser, LPAREN, 0, context); };
 ")"                      { Parse(parser, RPAREN, 0, context); };

@@ -53,6 +53,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 calcInput('*');
             }
             return false;
+        case CL_CARRET:
+            if (record->event.pressed) {
+                calcInput('^');
+            }
+            return false;
         case CL_TYPE:
             if (record->event.pressed) {
                 send_string(calc_result_buffer);

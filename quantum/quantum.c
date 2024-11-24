@@ -324,6 +324,9 @@ bool process_record_quantum(keyrecord_t *record) {
 #if defined(POINTING_DEVICE_ENABLE) && defined(POINTING_DEVICE_AUTO_MOUSE_ENABLE)
             process_auto_mouse(keycode, record) &&
 #endif
+#ifdef AUTO_SHIFT_ENABLE
+            process_auto_shift(keycode, record) &&
+#endif
             process_record_kb(keycode, record) &&
 #if defined(SECURE_ENABLE)
             process_secure(keycode, record) &&
@@ -363,9 +366,6 @@ bool process_record_quantum(keyrecord_t *record) {
 #endif
 #ifdef LEADER_ENABLE
             process_leader(keycode, record) &&
-#endif
-#ifdef AUTO_SHIFT_ENABLE
-            process_auto_shift(keycode, record) &&
 #endif
 #ifdef DYNAMIC_TAPPING_TERM_ENABLE
             process_dynamic_tapping_term(keycode, record) &&
