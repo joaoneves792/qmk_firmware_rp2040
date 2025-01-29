@@ -329,9 +329,6 @@ bool process_record_quantum(keyrecord_t *record) {
 #ifdef HAPTIC_ENABLE
             process_haptic(keycode, record) &&
 #endif
-#if defined(VIA_ENABLE)
-            process_record_via(keycode, record) &&
-#endif
 #if defined(POINTING_DEVICE_ENABLE) && defined(POINTING_DEVICE_AUTO_MOUSE_ENABLE)
             process_auto_mouse(keycode, record) &&
 #endif
@@ -339,6 +336,9 @@ bool process_record_quantum(keyrecord_t *record) {
             process_auto_shift(keycode, record) &&
 #endif
             process_record_kb(keycode, record) &&
+#if defined(VIA_ENABLE)
+            process_record_via(keycode, record) &&
+#endif
 #if defined(SECURE_ENABLE)
             process_secure(keycode, record) &&
 #endif
