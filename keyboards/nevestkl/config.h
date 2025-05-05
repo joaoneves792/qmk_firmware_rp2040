@@ -9,9 +9,23 @@
 #define I2C1_SCL_PIN        GP15
 #define I2C1_SDA_PIN        GP14
 #define I2C_DRIVER I2CD1
+
+
+#define SERIAL_USART_DRIVER vendor
+#define SERIAL_PIO_USE_PIO1 // Force the usage of PIO1 peripheral, by default the Serial implementation uses the PIO0 peripheral
+#define SERIAL_USART_TIMEOUT 20    // USART driver timeout. default 20
+#define SERIAL_USART_SPEED 9600
+#define SERIAL_USART_FULL_DUPLEX   // Enable full duplex operation mode.
+#define SERIAL_USART_TX_PIN GP16     // USART TX pin
+#define SERIAL_USART_RX_PIN GP17    // USART RX pin
+
+
+#define UART_TX_PIN GP16
+#define UART_RX_PIN GP17
 /*
 #define OLED_BRIGHTNESS 64
 #define OLED_FONT_H "keyboards/1upkeyboards/pi40/lib/glcdfont.c"
+
 
 
 #define AUTO_SHIFT_TIMEOUT 250

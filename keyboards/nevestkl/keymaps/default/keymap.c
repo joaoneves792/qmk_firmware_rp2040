@@ -2,10 +2,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
+#include "uart.h"
+
+#define QK_IS_BASIC(kc) (kc > QK_BASIC && kc <= QK_BASIC_MAX)
 
 #define _BL 0
 #define _FN 1
-#define _VIM 2
+#define _ESP 2
+#define _VIM 3
 
 uint8_t rgb_current_layer = _BL;
 uint8_t g_vim_count = 0;
@@ -26,12 +30,13 @@ enum custom_keycodes {
     KC_VIMC8,
     KC_VIMC9,
     KC_DBELL,
+    QK_SA,
 };
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BL] = LAYOUT(
-        KC_ESC, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
+        KC_PSCR, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
         KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL,
         KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC,
         KC_ESC, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_BSLS,
@@ -40,11 +45,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO, KC_NO, KC_NO, KC_PSCR, KC_SCRL, KC_PAUS, KC_DEL, KC_INS, KC_HOME, KC_PGUP, KC_DEL, KC_END, KC_PGDN
     ),
     [_FN] = LAYOUT(
-        QK_REBOOT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
+        QK_REBOOT, QK_BOOTLOADER, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        TG(_ESP), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______,TG(_VIM), _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    [_ESP] = LAYOUT(
+        KC_DBELL, KC_F1, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        TG(_ESP), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, KC_V, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -52,14 +66,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         QMKDOOM, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
         _______, KC_VIMC1, KC_VIMC2, KC_VIMC3, KC_VIMC4, KC_VIMC5, KC_VIMC6, KC_VIMC7, KC_VIMC8, KC_VIMC9, KC_VIMC0, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        TG(_VIM), _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______, _______, _______,
+        TG(_VIM), QK_SA, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______, _______, _______,
         _______, _______, _______, _______,TG(_VIM), _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     )
 };
 
-#define QK_IS_BASIC(kc) (kc > QK_BASIC && kc <= QK_BASIC_MAX)
+const uint8_t keycode_to_ascii_lut[58] PROGMEM = {0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 0x0D, 0x1B, 0x08, 0x09, ' ', '-', '=', '[', ']', '\\', '#', ';', '\'', '`', ',', '.', '/'};
+
 bool process_vimcount(uint16_t keycode, keyrecord_t *record) {
     if(!record->event.pressed && (QK_IS_BASIC(keycode) )){
       if ( g_vim_count > 1 ){ 
@@ -70,7 +85,7 @@ bool process_vimcount(uint16_t keycode, keyrecord_t *record) {
             layer_clear();
 
             register_mods(saved_mods);
-            SEND_STRING("" SS_TAP(keycode));
+            //SEND_STRING("", SS_TAP(keycode));
 
             //record->event.pressed = true;
             //process_record(record); 
@@ -112,7 +127,41 @@ void process_doom(void){
 }
 
 
+bool process_esp(uint8_t keycode, keyrecord_t *record){
+    if (!(record->event.pressed) && keycode < 58){
+      uint8_t ascii = keycode_to_ascii_lut[(uint8_t)keycode];
+
+      if (get_mods() & MOD_BIT(KC_LSFT)){
+        ascii ^= 0b00100000;
+      }
+      if (get_mods() & MOD_BIT(KC_RSFT)){
+        ascii ^= 0b00010000;
+      }
+      if (get_mods() & MOD_MASK_CTRL){
+        ascii &= 0b00001111; 
+      }
+      uart_write(ascii);
+    }
+
+    return false;
+}
+
+bool pre_process_record_user(uint16_t keycode, keyrecord_t *record){
+    if (!(record->event.pressed) && keycode == KC_DBELL){
+      uart_write(0x07); //Ascii BEL
+    }
+
+    if ( layer_state_is(_ESP) && QK_IS_BASIC(keycode)) {
+      return process_esp(keycode, record);
+    }
+    return true;
+}
+
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    /*if ( layer_state_is(_ESP) && QK_IS_BASIC(keycode)) {
+      return process_esp(keycode, record);
+    }*/
     switch (keycode) {
       case QMKDOOM:
           if (record->event.pressed) {
@@ -148,13 +197,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 };
 
 void keyboard_post_init_user(void) {
+  uart_init(9600);
   // Customise these values to desired behaviour
   //debug_enable=true;
   //debug_matrix=true;
   //debug_keyboard=true;
   //debug_mouse=true;
-
-
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -164,6 +212,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         break;
     case _VIM:
         rgb_current_layer = _VIM;
+        break;
+    case _ESP:
+        rgb_current_layer = _ESP;
         break;
     default: //  for any other layers, or the default layer
         rgb_current_layer = _BL;

@@ -13,7 +13,8 @@ RGB_MATRIX_EFFECT(the_matrix)
 
 #define _BL 0
 #define _FN 1
-#define _VIM 2
+#define _ESP 2
+#define _VIM 3
 
 extern bool repeat_use_register;
 //extern keyrecord_t repeat_last_record;
@@ -25,31 +26,46 @@ extern uint8_t rgb_current_layer;
 static bool STATIC_WHITE(effect_params_t* params) {
   RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
-  //VIM mode
-  if (rgb_current_layer == _VIM){
-    for (uint8_t i = led_min; i < led_max; i++) {
-      if ( i == g_led_config.matrix_co[4][4] && (g_rgb_timer & (0x1 << 9) ) ) { //VIM Mode, blink V green
+#define F1 (g_led_config.matrix_co[0][1])
+#define PSCR 13
+#define SRLK 14
+#define PAUS 15
+#define GRV 16
+#define blink (g_rgb_timer & (0x1 << 9))
+  for (uint8_t i = led_min; i < led_max; i++) {
+    if(i == PSCR || i == SRLK || i == PAUS){
+      rgb_matrix_set_color(i, 0x0, 0x0, 0x0);
+      continue;
+    }
+
+    //VIM mode
+    if (rgb_current_layer == _VIM){
+      if ( i == g_led_config.matrix_co[4][4] && blink) { //VIM Mode, blink V green
         rgb_matrix_set_color(i, 0x00, 0xaa, 0x00);
       }else if (g_vim_count > 1 && i == g_led_config.matrix_co[1][g_vim_count]){ //VIM count highligh number in red
         rgb_matrix_set_color(i, 0xff, 0x00, 0x00);
       }else{
         rgb_matrix_set_color(i, 0xff, 0xff, 0xff);
       }
-    }
-    return led_max < DRIVER_LED_TOTAL;
-  }
-
-  //uint8_t r = g_led_config.matrix_co[repeat_last_record.event.key.row][repeat_last_record.event.key.col];
-  for (uint8_t i = led_min; i < led_max; i++) {
  //   if ( i == user_red_key_index && (g_rgb_timer & (0x1 << 9) ) ) { //Recording, blink @
  //     rgb_matrix_set_color(i, 0xff, 0x00, 0x00);
  //   //} else if (i == r && repeat_use_register){ //Register value
  //   //  rgb_matrix_set_color(i, 0xff, 0x00, 0x00);
-    if (g_vim_count > 1 && i == g_led_config.matrix_co[1][g_vim_count]){ //VIM count highligh number in green
-        rgb_matrix_set_color(i, 0x00, 0xff, 0x00);
-    }else{ //Set to white
-      if (rgb_current_layer == _FN){
+    }else if (rgb_current_layer == _FN){
+      if (i == F1){
+        rgb_matrix_set_color(i, 0xff, 0x33, 0x33);
+      }else{
         rgb_matrix_set_color(i, 0x33, 0x33, 0xff);
+      }
+    }else if (rgb_current_layer == _ESP){
+      if (i == GRV && blink){
+        rgb_matrix_set_color(i, 0x00, 0x00, 0xff);
+      }else{
+        rgb_matrix_set_color(i, 0xff, 0xff, 0xff);
+      }
+    }else{
+      if (g_vim_count > 1 && i == g_led_config.matrix_co[1][g_vim_count]){ //VIM count highligh number in green
+          rgb_matrix_set_color(i, 0x00, 0xff, 0x00);
       }else{
         rgb_matrix_set_color(i, 0xff, 0xff, 0xff);
       }
