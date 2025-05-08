@@ -1,7 +1,7 @@
 
 #line 1 "calculator.rl"
 
-#line 24 "calculator.rl"
+#line 20 "calculator.rl"
 
 
 
@@ -32,70 +32,73 @@ char calculate(void * parser, char* input, Context * context) {
     const char * eof = pe;
 
     
-#line 31 "calculator.c"
+#line 36 "calculator.c"
 static const char _formula_actions[] = {
-	0, 1, 3, 1, 6, 1, 7, 1, 
-	8, 1, 9, 1, 10, 1, 11, 1, 
-	12, 1, 13, 1, 15, 2, 0, 14, 
-	2, 1, 2, 2, 4, 5
+	0, 1, 0, 1, 1, 1, 2, 1, 
+	5, 1, 6, 1, 7, 1, 8, 1, 
+	9, 1, 10, 1, 11, 1, 12, 1, 
+	13, 1, 14, 1, 15, 2, 2, 3, 
+	2, 2, 4
 };
 
 static const char _formula_key_offsets[] = {
-	0, 0, 2, 15, 17
+	0, 2, 14, 16, 19
 };
 
 static const char _formula_trans_keys[] = {
 	48, 57, 32, 40, 41, 42, 43, 45, 
-	46, 47, 94, 9, 13, 48, 57, 48, 
-	57, 46, 48, 57, 0
+	46, 47, 9, 13, 48, 57, 48, 57, 
+	46, 48, 57, 48, 57, 0
 };
 
 static const char _formula_single_lengths[] = {
-	0, 0, 9, 0, 1
+	0, 8, 0, 1, 0
 };
 
 static const char _formula_range_lengths[] = {
-	0, 1, 2, 1, 1
+	1, 2, 1, 1, 1
 };
 
 static const char _formula_index_offsets[] = {
-	0, 0, 2, 14, 16
+	0, 2, 13, 15, 18
 };
 
 static const char _formula_trans_targs[] = {
-	3, 2, 2, 2, 2, 2, 2, 2, 
-	1, 2, 2, 2, 4, 0, 3, 2, 
-	1, 4, 2, 2, 2, 2, 0
+	4, 1, 1, 1, 1, 1, 1, 1, 
+	2, 1, 1, 3, 1, 2, 1, 0, 
+	3, 1, 4, 1, 1, 1, 1, 1, 
+	0
 };
 
 static const char _formula_trans_actions[] = {
-	0, 19, 17, 13, 15, 7, 3, 5, 
-	0, 11, 9, 17, 27, 0, 0, 21, 
-	0, 27, 21, 19, 21, 21, 0
+	0, 25, 19, 15, 17, 11, 7, 9, 
+	32, 13, 19, 5, 21, 29, 27, 0, 
+	5, 23, 0, 23, 25, 27, 23, 23, 
+	0
 };
 
 static const char _formula_to_state_actions[] = {
-	0, 0, 24, 0, 0
+	0, 1, 0, 0, 0
 };
 
 static const char _formula_from_state_actions[] = {
-	0, 0, 1, 0, 0
+	0, 3, 0, 0, 0
 };
 
 static const char _formula_eof_trans[] = {
-	0, 20, 0, 22, 22
+	21, 0, 22, 24, 24
 };
 
-static const int formula_start = 2;
-static const int formula_first_final = 2;
-static const int formula_error = 0;
+static const int formula_start = 1;
+static const int formula_first_final = 1;
+static const int formula_error = -1;
 
-static const int formula_en_main = 2;
+static const int formula_en_main = 1;
 
 
-#line 54 "calculator.rl"
+#line 50 "calculator.rl"
     
-#line 90 "calculator.c"
+#line 102 "calculator.c"
 	{
 	cs = formula_start;
 	ts = 0;
@@ -103,9 +106,9 @@ static const int formula_en_main = 2;
 	act = 0;
 	}
 
-#line 55 "calculator.rl"
+#line 51 "calculator.rl"
     
-#line 96 "calculator.c"
+#line 112 "calculator.c"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -115,18 +118,16 @@ static const int formula_en_main = 2;
 
 	if ( p == pe )
 		goto _test_eof;
-	if ( cs == 0 )
-		goto _out;
 _resume:
 	_acts = _formula_actions + _formula_from_state_actions[cs];
 	_nacts = (unsigned int) *_acts++;
 	while ( _nacts-- > 0 ) {
 		switch ( *_acts++ ) {
-	case 3:
+	case 1:
 #line 1 "NONE"
 	{ts = p;}
 	break;
-#line 115 "calculator.c"
+#line 131 "calculator.c"
 		}
 	}
 
@@ -191,67 +192,71 @@ _eof_trans:
 	{
 		switch ( *_acts++ )
 		{
-	case 0:
-#line 5 "calculator.rl"
-	{ Parse(parser, LITERAL, atof(ts), context); }
-	break;
-	case 4:
+	case 2:
 #line 1 "NONE"
 	{te = p+1;}
 	break;
-	case 5:
-#line 12 "calculator.rl"
-	{act = 1;}
+	case 3:
+#line 8 "calculator.rl"
+	{act = 2;}
 	break;
-	case 6:
-#line 13 "calculator.rl"
+	case 4:
+#line 16 "calculator.rl"
+	{act = 10;}
+	break;
+	case 5:
+#line 9 "calculator.rl"
 	{te = p+1;{ Parse(parser, ADD, 0, context); }}
 	break;
-	case 7:
-#line 14 "calculator.rl"
+	case 6:
+#line 10 "calculator.rl"
 	{te = p+1;{ Parse(parser, SUB, 0, context); }}
 	break;
-	case 8:
-#line 15 "calculator.rl"
+	case 7:
+#line 11 "calculator.rl"
 	{te = p+1;{ Parse(parser, MUL, 0, context); }}
 	break;
-	case 9:
-#line 16 "calculator.rl"
-	{te = p+1;{ Parse(parser, POW, 0, context); }}
-	break;
-	case 10:
-#line 17 "calculator.rl"
+	case 8:
+#line 12 "calculator.rl"
 	{te = p+1;{ Parse(parser, DIV, 0, context); }}
 	break;
-	case 11:
-#line 18 "calculator.rl"
+	case 9:
+#line 13 "calculator.rl"
 	{te = p+1;{ Parse(parser, LPAREN, 0, context); }}
 	break;
-	case 12:
-#line 19 "calculator.rl"
+	case 10:
+#line 14 "calculator.rl"
 	{te = p+1;{ Parse(parser, RPAREN, 0, context); }}
 	break;
-	case 13:
-#line 20 "calculator.rl"
+	case 11:
+#line 15 "calculator.rl"
 	{te = p+1;{ /* ignore whitespace */ }}
 	break;
+	case 12:
+#line 16 "calculator.rl"
+	{te = p+1;{ return 0; }}
+	break;
+	case 13:
+#line 7 "calculator.rl"
+	{te = p;p--;{ Parse(parser, LITERAL, atof(ts), context); }}
+	break;
 	case 14:
-#line 12 "calculator.rl"
-	{te = p;p--;}
+#line 7 "calculator.rl"
+	{{p = ((te))-1;}{ Parse(parser, LITERAL, atof(ts), context); }}
 	break;
 	case 15:
 #line 1 "NONE"
 	{	switch( act ) {
-	case 0:
-	{{cs = 0;goto _again;}}
+	case 2:
+	{{p = ((te))-1;} Parse(parser, LITERAL, atof(ts), context); }
 	break;
-	case 1:
-	{{p = ((te))-1;}}
+	case 10:
+	{{p = ((te))-1;} return 0; }
 	break;
 	}
 	}
 	break;
-#line 226 "calculator.c"
+#line 260 "calculator.c"
 		}
 	}
 
@@ -260,20 +265,14 @@ _again:
 	_nacts = (unsigned int) *_acts++;
 	while ( _nacts-- > 0 ) {
 		switch ( *_acts++ ) {
-	case 1:
+	case 0:
 #line 1 "NONE"
 	{ts = 0;}
 	break;
-	case 2:
-#line 1 "NONE"
-	{act = 0;}
-	break;
-#line 240 "calculator.c"
+#line 273 "calculator.c"
 		}
 	}
 
-	if ( cs == 0 )
-		goto _out;
 	if ( ++p != pe )
 		goto _resume;
 	_test_eof: {}
@@ -285,10 +284,9 @@ _again:
 	}
 	}
 
-	_out: {}
 	}
 
-#line 56 "calculator.rl"
+#line 52 "calculator.rl"
 
     Parse(parser, 0, 0, context);
 

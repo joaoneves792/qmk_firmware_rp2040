@@ -4,219 +4,164 @@ State 0:
           expr ::= * expr ADD expr
           expr ::= * expr SUB expr
           expr ::= * expr MUL expr
-          expr ::= * expr POW expr
           expr ::= * expr DIV expr
           expr ::= * LPAREN expr RPAREN
           expr ::= * LITERAL
 
-                           SUB shift        6      
+                           SUB shift        5      
                         LPAREN shift        1      
-                       LITERAL shift-reduce 8      expr ::= LITERAL
+                       LITERAL shift-reduce 7      expr ::= LITERAL
                        formula accept
-                          expr shift        9      
+                          expr shift        8      
 
 State 1:
           expr ::= * SUB expr
           expr ::= * expr ADD expr
           expr ::= * expr SUB expr
           expr ::= * expr MUL expr
-          expr ::= * expr POW expr
           expr ::= * expr DIV expr
           expr ::= * LPAREN expr RPAREN
           expr ::= LPAREN * expr RPAREN
           expr ::= * LITERAL
 
-                           SUB shift        6      
+                           SUB shift        5      
                         LPAREN shift        1      
-                       LITERAL shift-reduce 8      expr ::= LITERAL
-                          expr shift        8      
+                       LITERAL shift-reduce 7      expr ::= LITERAL
+                          expr shift        7      
 
 State 2:
           expr ::= * SUB expr
           expr ::= * expr ADD expr
           expr ::= * expr SUB expr
           expr ::= * expr MUL expr
-          expr ::= * expr POW expr
           expr ::= * expr DIV expr
           expr ::= expr DIV * expr
           expr ::= * LPAREN expr RPAREN
           expr ::= * LITERAL
 
-                           SUB shift        6      
+                           SUB shift        5      
                         LPAREN shift        1      
-                       LITERAL shift-reduce 8      expr ::= LITERAL
-                          expr shift        13     
+                       LITERAL shift-reduce 7      expr ::= LITERAL
+                          expr shift-reduce 5      expr ::= expr DIV expr
 
 State 3:
           expr ::= * SUB expr
           expr ::= * expr ADD expr
           expr ::= * expr SUB expr
           expr ::= * expr MUL expr
-          expr ::= * expr POW expr
-          expr ::= expr POW * expr
+          expr ::= expr MUL * expr
           expr ::= * expr DIV expr
           expr ::= * LPAREN expr RPAREN
           expr ::= * LITERAL
 
-                           SUB shift        6      
+                           SUB shift        5      
                         LPAREN shift        1      
-                       LITERAL shift-reduce 8      expr ::= LITERAL
-                          expr shift-reduce 5      expr ::= expr POW expr
+                       LITERAL shift-reduce 7      expr ::= LITERAL
+                          expr shift-reduce 4      expr ::= expr MUL expr
 
 State 4:
           expr ::= * SUB expr
           expr ::= * expr ADD expr
           expr ::= * expr SUB expr
-          expr ::= * expr MUL expr
-          expr ::= expr MUL * expr
-          expr ::= * expr POW expr
-          expr ::= * expr DIV expr
-          expr ::= * LPAREN expr RPAREN
-          expr ::= * LITERAL
-
-                           SUB shift        6      
-                        LPAREN shift        1      
-                       LITERAL shift-reduce 8      expr ::= LITERAL
-                          expr shift        14     
-
-State 5:
-          expr ::= * SUB expr
-          expr ::= * expr ADD expr
-          expr ::= * expr SUB expr
           expr ::= expr SUB * expr
           expr ::= * expr MUL expr
-          expr ::= * expr POW expr
           expr ::= * expr DIV expr
           expr ::= * LPAREN expr RPAREN
           expr ::= * LITERAL
 
-                           SUB shift        6      
+                           SUB shift        5      
                         LPAREN shift        1      
-                       LITERAL shift-reduce 8      expr ::= LITERAL
-                          expr shift        11     
+                       LITERAL shift-reduce 7      expr ::= LITERAL
+                          expr shift        10     
 
-State 6:
+State 5:
           expr ::= * SUB expr
           expr ::= SUB * expr
           expr ::= * expr ADD expr
           expr ::= * expr SUB expr
           expr ::= * expr MUL expr
-          expr ::= * expr POW expr
           expr ::= * expr DIV expr
           expr ::= * LPAREN expr RPAREN
           expr ::= * LITERAL
 
-                           SUB shift        6      
+                           SUB shift        5      
                         LPAREN shift        1      
-                       LITERAL shift-reduce 8      expr ::= LITERAL
-                          expr shift        12     
+                       LITERAL shift-reduce 7      expr ::= LITERAL
+                          expr shift        11     
 
-State 7:
+State 6:
           expr ::= * SUB expr
           expr ::= * expr ADD expr
           expr ::= expr ADD * expr
           expr ::= * expr SUB expr
           expr ::= * expr MUL expr
-          expr ::= * expr POW expr
           expr ::= * expr DIV expr
           expr ::= * LPAREN expr RPAREN
           expr ::= * LITERAL
 
-                           SUB shift        6      
+                           SUB shift        5      
                         LPAREN shift        1      
-                       LITERAL shift-reduce 8      expr ::= LITERAL
-                          expr shift        10     
+                       LITERAL shift-reduce 7      expr ::= LITERAL
+                          expr shift        9      
 
-State 8:
+State 7:
           expr ::= expr * ADD expr
           expr ::= expr * SUB expr
           expr ::= expr * MUL expr
-          expr ::= expr * POW expr
           expr ::= expr * DIV expr
           expr ::= LPAREN expr * RPAREN
 
-                           ADD shift        7      
-                           SUB shift        5      
-                           MUL shift        4      
+                           ADD shift        6      
+                           SUB shift        4      
+                           MUL shift        3      
                            DIV shift        2      
-                           POW shift        3      
-                        RPAREN shift-reduce 7      expr ::= LPAREN expr RPAREN
+                        RPAREN shift-reduce 6      expr ::= LPAREN expr RPAREN
 
-State 9:
+State 8:
       (0) formula ::= expr *
           expr ::= expr * ADD expr
           expr ::= expr * SUB expr
           expr ::= expr * MUL expr
-          expr ::= expr * POW expr
           expr ::= expr * DIV expr
 
                              $ reduce       0      formula ::= expr
-                           ADD shift        7      
-                           SUB shift        5      
-                           MUL shift        4      
+                           ADD shift        6      
+                           SUB shift        4      
+                           MUL shift        3      
                            DIV shift        2      
-                           POW shift        3      
 
-State 10:
+State 9:
           expr ::= expr * ADD expr
       (2) expr ::= expr ADD expr *
           expr ::= expr * SUB expr
           expr ::= expr * MUL expr
-          expr ::= expr * POW expr
           expr ::= expr * DIV expr
 
-                           MUL shift        4      
+                           MUL shift        3      
                            DIV shift        2      
-                           POW shift        3      
                      {default} reduce       2      expr ::= expr ADD expr
 
-State 11:
+State 10:
           expr ::= expr * ADD expr
           expr ::= expr * SUB expr
       (3) expr ::= expr SUB expr *
           expr ::= expr * MUL expr
-          expr ::= expr * POW expr
           expr ::= expr * DIV expr
 
-                           MUL shift        4      
+                           MUL shift        3      
                            DIV shift        2      
-                           POW shift        3      
                      {default} reduce       3      expr ::= expr SUB expr
 
-State 12:
+State 11:
       (1) expr ::= SUB expr *
           expr ::= expr * ADD expr
           expr ::= expr * SUB expr
           expr ::= expr * MUL expr
-          expr ::= expr * POW expr
           expr ::= expr * DIV expr
 
-                           MUL shift        4      
+                           MUL shift        3      
                            DIV shift        2      
-                           POW shift        3      
                      {default} reduce       1      expr ::= SUB expr
-
-State 13:
-          expr ::= expr * ADD expr
-          expr ::= expr * SUB expr
-          expr ::= expr * MUL expr
-          expr ::= expr * POW expr
-          expr ::= expr * DIV expr
-      (6) expr ::= expr DIV expr *
-
-                           POW shift        3      
-                     {default} reduce       6      expr ::= expr DIV expr
-
-State 14:
-          expr ::= expr * ADD expr
-          expr ::= expr * SUB expr
-          expr ::= expr * MUL expr
-      (4) expr ::= expr MUL expr *
-          expr ::= expr * POW expr
-          expr ::= expr * DIV expr
-
-                           POW shift        3      
-                     {default} reduce       4      expr ::= expr MUL expr
 
 ----------------------------------------------------
 Symbols:
@@ -227,17 +172,16 @@ The first-set of non-terminals is shown after the name.
     2: SUB (precedence=1)
     3: MUL (precedence=2)
     4: DIV (precedence=2)
-    5: POW (precedence=3)
-    6: LPAREN
-    7: RPAREN
-    8: LITERAL
-    9: formula: SUB LPAREN LITERAL
-   10: expr: SUB LPAREN LITERAL
+    5: LPAREN
+    6: RPAREN
+    7: LITERAL
+    8: formula: SUB LPAREN LITERAL
+    9: expr: SUB LPAREN LITERAL
 ----------------------------------------------------
 Syntax-only Symbols:
 The following symbols never carry semantic content.
 
-$ ADD SUB MUL DIV POW LPAREN RPAREN formula
+$ ADD SUB MUL DIV LPAREN RPAREN formula
 ----------------------------------------------------
 Rules:
    0: formula ::= expr.
@@ -245,7 +189,6 @@ Rules:
    2: expr ::= expr ADD expr. [ADD precedence=1]
    3: expr ::= expr SUB expr. [SUB precedence=1]
    4: expr ::= expr MUL expr. [MUL precedence=2]
-   5: expr ::= expr POW expr. [POW precedence=3]
-   6: expr ::= expr DIV expr. [DIV precedence=2]
-   7: expr ::= LPAREN expr RPAREN.
-   8: expr ::= LITERAL.
+   5: expr ::= expr DIV expr. [DIV precedence=2]
+   6: expr ::= LPAREN expr RPAREN.
+   7: expr ::= LITERAL.

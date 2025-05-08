@@ -63,6 +63,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 send_string(calc_result_buffer);
             }
             return false;
+        case CL_BACK:
+            if (record->event.pressed) {
+              calcBack();
+            }
+            return false;
         default:
             break;
     }

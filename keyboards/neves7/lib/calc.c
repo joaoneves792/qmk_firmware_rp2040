@@ -125,3 +125,13 @@ void calcInput(char input){
     
     calcUpdate();
 }
+
+
+void calcBack(){
+  if( calc_buffer_size == 0 ){
+    return;
+  }
+  calc_buffer_size -= 1;
+  calc_buffer[calc_buffer_size] = 0;
+  calcUpdate();
+}

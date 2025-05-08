@@ -199,10 +199,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void keyboard_post_init_user(void) {
   uart_init(9600);
   // Customise these values to desired behaviour
-  //debug_enable=true;
+  debug_enable=true;
   //debug_matrix=true;
   //debug_keyboard=true;
   //debug_mouse=true;
+}
+
+void housekeeping_task_user(void) {
+  if ( uart_available()){
+    uint8_t c = uart_read();
+    send_char(c); 
+  }
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {

@@ -27,12 +27,11 @@
 */
 /************ Begin %include sections from the grammar ************************/
 #include "parser.h"
-#include <math.h>
 struct Context {
     double result;
     char error;
 };
-#line 36 "parser.c"
+#line 35 "parser.c"
 /**************** End of %include directives **********************************/
 /* These constants specify the various numeric values for terminal symbols.
 ***************** Begin token definitions *************************************/
@@ -41,10 +40,9 @@ struct Context {
 #define SUB                             2
 #define MUL                             3
 #define DIV                             4
-#define POW                             5
-#define LPAREN                          6
-#define RPAREN                          7
-#define LITERAL                         8
+#define LPAREN                          5
+#define RPAREN                          6
+#define LITERAL                         7
 #endif
 /**************** End token definitions ***************************************/
 
@@ -109,7 +107,7 @@ struct Context {
 #endif
 /************* Begin control #defines *****************************************/
 #define YYCODETYPE unsigned char
-#define YYNOCODE 11
+#define YYNOCODE 10
 #define YYACTIONTYPE unsigned char
 #define ParseTOKENTYPE  double 
 typedef union {
@@ -132,18 +130,18 @@ typedef union {
 #define ParseCTX_PARAM
 #define ParseCTX_FETCH
 #define ParseCTX_STORE
-#define YYNSTATE             15
-#define YYNRULE              9
-#define YYNRULE_WITH_ACTION  9
-#define YYNTOKEN             9
-#define YY_MAX_SHIFT         14
-#define YY_MIN_SHIFTREDUCE   18
-#define YY_MAX_SHIFTREDUCE   26
-#define YY_ERROR_ACTION      27
-#define YY_ACCEPT_ACTION     28
-#define YY_NO_ACTION         29
-#define YY_MIN_REDUCE        30
-#define YY_MAX_REDUCE        38
+#define YYNSTATE             12
+#define YYNRULE              8
+#define YYNRULE_WITH_ACTION  8
+#define YYNTOKEN             8
+#define YY_MAX_SHIFT         11
+#define YY_MIN_SHIFTREDUCE   16
+#define YY_MAX_SHIFTREDUCE   23
+#define YY_ERROR_ACTION      24
+#define YY_ACCEPT_ACTION     25
+#define YY_NO_ACTION         26
+#define YY_MIN_REDUCE        27
+#define YY_MAX_REDUCE        34
 #define YY_MIN_DSTRCTR       0
 #define YY_MAX_DSTRCTR       0
 /************* End control #defines *******************************************/
@@ -228,34 +226,34 @@ typedef union {
 **  yy_default[]       Default action for each state.
 **
 *********** Begin parsing tables **********************************************/
-#define YY_ACTTAB_COUNT (28)
+#define YY_ACTTAB_COUNT (24)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */     8,    7,    5,    4,    2,    3,   13,   25,   30,    7,
- /*    10 */     5,    4,    2,    3,    6,   28,    9,   35,    1,   14,
- /*    20 */    26,   11,    4,    2,    3,   12,   10,    3,
+ /*     0 */     7,    6,    4,    3,    2,   32,   22,   27,    6,    4,
+ /*    10 */     3,    2,    5,   25,    8,    1,   26,   23,    3,    2,
+ /*    20 */    31,   10,   11,    9,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    10,    1,    2,    3,    4,    5,   10,    7,    0,    1,
- /*    10 */     2,    3,    4,    5,    2,    9,   10,   10,    6,   10,
- /*    20 */     8,   10,    3,    4,    5,   10,   10,    5,   11,   11,
- /*    30 */    11,   11,   11,   11,   11,   11,   11,
+ /*     0 */     9,    1,    2,    3,    4,    9,    6,    0,    1,    2,
+ /*    10 */     3,    4,    2,    8,    9,    5,   10,    7,    3,    4,
+ /*    20 */     9,    9,    9,    9,   10,   10,   10,    8,    8,    8,
+ /*    30 */     8,    8,
 };
-#define YY_SHIFT_COUNT    (14)
+#define YY_SHIFT_COUNT    (11)
 #define YY_SHIFT_MIN      (0)
-#define YY_SHIFT_MAX      (22)
+#define YY_SHIFT_MAX      (15)
 static const unsigned char yy_shift_ofst[] = {
- /*     0 */    12,   12,   12,   12,   12,   12,   12,   12,    0,    8,
- /*    10 */    19,   19,   19,   22,   22,
+ /*     0 */    10,   10,   10,   10,   10,   10,   10,    0,    7,   15,
+ /*    10 */    15,   15,
 };
-#define YY_REDUCE_COUNT (7)
-#define YY_REDUCE_MIN   (-10)
-#define YY_REDUCE_MAX   (16)
+#define YY_REDUCE_COUNT (6)
+#define YY_REDUCE_MIN   (-9)
+#define YY_REDUCE_MAX   (14)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */     6,  -10,   -4,    7,    9,   11,   15,   16,
+ /*     0 */     5,   -9,   -4,   11,   12,   13,   14,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    27,   27,   27,   27,   27,   27,   27,   27,   27,   27,
- /*    10 */    32,   33,   31,   36,   34,
+ /*     0 */    24,   24,   24,   24,   24,   24,   24,   24,   24,   29,
+ /*    10 */    30,   28,
 };
 /********** End of lemon-generated parsing tables *****************************/
 
@@ -363,12 +361,11 @@ static const char *const yyTokenName[] = {
   /*    2 */ "SUB",
   /*    3 */ "MUL",
   /*    4 */ "DIV",
-  /*    5 */ "POW",
-  /*    6 */ "LPAREN",
-  /*    7 */ "RPAREN",
-  /*    8 */ "LITERAL",
-  /*    9 */ "formula",
-  /*   10 */ "expr",
+  /*    5 */ "LPAREN",
+  /*    6 */ "RPAREN",
+  /*    7 */ "LITERAL",
+  /*    8 */ "formula",
+  /*    9 */ "expr",
 };
 #endif /* defined(YYCOVERAGE) || !defined(NDEBUG) */
 
@@ -381,10 +378,9 @@ static const char *const yyRuleName[] = {
  /*   2 */ "expr ::= expr ADD expr",
  /*   3 */ "expr ::= expr SUB expr",
  /*   4 */ "expr ::= expr MUL expr",
- /*   5 */ "expr ::= expr POW expr",
- /*   6 */ "expr ::= expr DIV expr",
- /*   7 */ "expr ::= LPAREN expr RPAREN",
- /*   8 */ "expr ::= LITERAL",
+ /*   5 */ "expr ::= expr DIV expr",
+ /*   6 */ "expr ::= LPAREN expr RPAREN",
+ /*   7 */ "expr ::= LITERAL",
 };
 #endif /* NDEBUG */
 
@@ -805,15 +801,14 @@ static void yy_shift(
 /* For rule J, yyRuleInfoLhs[J] contains the symbol on the left-hand side
 ** of that rule */
 static const YYCODETYPE yyRuleInfoLhs[] = {
-     9,  /* (0) formula ::= expr */
-    10,  /* (1) expr ::= SUB expr */
-    10,  /* (2) expr ::= expr ADD expr */
-    10,  /* (3) expr ::= expr SUB expr */
-    10,  /* (4) expr ::= expr MUL expr */
-    10,  /* (5) expr ::= expr POW expr */
-    10,  /* (6) expr ::= expr DIV expr */
-    10,  /* (7) expr ::= LPAREN expr RPAREN */
-    10,  /* (8) expr ::= LITERAL */
+     8,  /* (0) formula ::= expr */
+     9,  /* (1) expr ::= SUB expr */
+     9,  /* (2) expr ::= expr ADD expr */
+     9,  /* (3) expr ::= expr SUB expr */
+     9,  /* (4) expr ::= expr MUL expr */
+     9,  /* (5) expr ::= expr DIV expr */
+     9,  /* (6) expr ::= LPAREN expr RPAREN */
+     9,  /* (7) expr ::= LITERAL */
 };
 
 /* For rule J, yyRuleInfoNRhs[J] contains the negative of the number
@@ -824,10 +819,9 @@ static const signed char yyRuleInfoNRhs[] = {
    -3,  /* (2) expr ::= expr ADD expr */
    -3,  /* (3) expr ::= expr SUB expr */
    -3,  /* (4) expr ::= expr MUL expr */
-   -3,  /* (5) expr ::= expr POW expr */
-   -3,  /* (6) expr ::= expr DIV expr */
-   -3,  /* (7) expr ::= LPAREN expr RPAREN */
-   -1,  /* (8) expr ::= LITERAL */
+   -3,  /* (5) expr ::= expr DIV expr */
+   -3,  /* (6) expr ::= LPAREN expr RPAREN */
+   -1,  /* (7) expr ::= LITERAL */
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -870,54 +864,48 @@ static YYACTIONTYPE yy_reduce(
 /********** Begin reduce actions **********************************************/
         YYMINORTYPE yylhsminor;
       case 0: /* formula ::= expr */
-#line 16 "parser.y"
+#line 14 "parser.y"
 { context->result = yymsp[0].minor.yy0; }
-#line 875 "parser.c"
+#line 869 "parser.c"
         break;
       case 1: /* expr ::= SUB expr */
-#line 19 "parser.y"
+#line 17 "parser.y"
 { yymsp[-1].minor.yy0 = -yymsp[0].minor.yy0; }
-#line 880 "parser.c"
+#line 874 "parser.c"
         break;
       case 2: /* expr ::= expr ADD expr */
-#line 22 "parser.y"
+#line 20 "parser.y"
 { yylhsminor.yy0 = yymsp[-2].minor.yy0 + yymsp[0].minor.yy0; }
-#line 885 "parser.c"
+#line 879 "parser.c"
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
       case 3: /* expr ::= expr SUB expr */
-#line 25 "parser.y"
+#line 23 "parser.y"
 { yylhsminor.yy0 = yymsp[-2].minor.yy0 - yymsp[0].minor.yy0; }
-#line 891 "parser.c"
+#line 885 "parser.c"
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
       case 4: /* expr ::= expr MUL expr */
-#line 28 "parser.y"
+#line 26 "parser.y"
 { yylhsminor.yy0 = yymsp[-2].minor.yy0 * yymsp[0].minor.yy0; }
+#line 891 "parser.c"
+  yymsp[-2].minor.yy0 = yylhsminor.yy0;
+        break;
+      case 5: /* expr ::= expr DIV expr */
+#line 29 "parser.y"
+{ yylhsminor.yy0 = yymsp[-2].minor.yy0 / yymsp[0].minor.yy0; }
 #line 897 "parser.c"
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
-      case 5: /* expr ::= expr POW expr */
-#line 31 "parser.y"
-{ yylhsminor.yy0 = pow(yymsp[-2].minor.yy0,yymsp[0].minor.yy0); }
-#line 903 "parser.c"
-  yymsp[-2].minor.yy0 = yylhsminor.yy0;
-        break;
-      case 6: /* expr ::= expr DIV expr */
-#line 34 "parser.y"
-{ yylhsminor.yy0 = yymsp[-2].minor.yy0 / yymsp[0].minor.yy0; }
-#line 909 "parser.c"
-  yymsp[-2].minor.yy0 = yylhsminor.yy0;
-        break;
-      case 7: /* expr ::= LPAREN expr RPAREN */
-#line 37 "parser.y"
+      case 6: /* expr ::= LPAREN expr RPAREN */
+#line 32 "parser.y"
 { yymsp[-2].minor.yy0 = yymsp[-1].minor.yy0; }
-#line 915 "parser.c"
+#line 903 "parser.c"
         break;
-      case 8: /* expr ::= LITERAL */
-#line 40 "parser.y"
+      case 7: /* expr ::= LITERAL */
+#line 35 "parser.y"
 { yylhsminor.yy0 = yymsp[0].minor.yy0; }
-#line 920 "parser.c"
+#line 908 "parser.c"
   yymsp[0].minor.yy0 = yylhsminor.yy0;
         break;
       default:
@@ -962,9 +950,9 @@ static void yy_parse_failed(
   /* Here code is inserted which will be executed whenever the
   ** parser fails */
 /************ Begin %parse_failure code ***************************************/
-#line 43 "parser.y"
+#line 38 "parser.y"
  context->error = 1; 
-#line 967 "parser.c"
+#line 955 "parser.c"
 /************ End %parse_failure code *****************************************/
   ParseARG_STORE /* Suppress warning about unused %extra_argument variable */
   ParseCTX_STORE

@@ -7,3 +7,4 @@ SRC += lib/oled.c \
 
 CFLAGS += -Wno-unused-variable -Wno-unused-but-set-variable
 AUTO_SHIFT_ENABLE = yes
+DEBOUNCE_TYPE = sym_defer_pk

@@ -181,6 +181,7 @@ static void i2c_write_reg(uint8_t devid, uint8_t reg, uint8_t data)
 
 static void reset_rgb(int devid)
 {
+    dprint("reset rgb starting\n");
     i2c_write_reg(devid, 0xFD, 0x0B);
 
     i2c_write_reg(devid, 0x0A, 0x00);
@@ -213,6 +214,7 @@ static void reset_rgb(int devid)
 
     i2c_write_reg(devid, 0xFD, 0xB);
     i2c_write_reg(devid, 0x0A, 1);
+    dprint("reset rgb done\n");
 }
 
 #ifdef USE_FRAMEBUFFER
@@ -434,6 +436,7 @@ void process_backlight(uint8_t devid, volatile LED_TYPE *states)
     switch (state)
     {
         case 0: /* init RGB chips */
+            dprint("init rgb\n");
             i2c_init();
             //i2c_set_baudrate(i2c1, 100000);
             
@@ -441,6 +444,7 @@ void process_backlight(uint8_t devid, volatile LED_TYPE *states)
             reset_rgb(0xEE);
 
             state = 1;
+            dprint("rgb ready\n");
             break;
 
         case 1:

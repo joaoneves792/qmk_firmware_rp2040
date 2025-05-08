@@ -2,6 +2,8 @@
 #include "rgb_matrix.h"
 #include "rgb_matrix_types.h"
 #include "color.h"
+#include "print.h"
+#include "debug.h"
 
 extern void _set_color(int index, uint8_t r, uint8_t g, uint8_t b);
 
@@ -25,6 +27,7 @@ static void set_color_all(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 void init(void) {
+  dprint("init rgb_matrix_driver\n");
 }
 
 const rgb_matrix_driver_t rgb_matrix_driver = {

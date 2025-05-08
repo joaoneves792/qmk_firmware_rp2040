@@ -1,0 +1,37 @@
+digraph formula {
+	rankdir=LR;
+	node [ shape = point ];
+	ENTRY;
+	en_2;
+	eof_1;
+	eof_3;
+	eof_4;
+	node [ shape = circle, height = 0.2 ];
+	node [ fixedsize = true, height = 0.65, shape = doublecircle ];
+	2;
+	3;
+	4;
+	node [ shape = circle ];
+	1 -> 3 [ label = "'0'..'9'" ];
+	1 -> 2 [ label = "DEF / switch, initts, initact" ];
+	2 -> 2 [ label = "'\\t'..'\\r', SP / ts, last9, initts, initact" ];
+	2 -> 2 [ label = "'(' / ts, last7, initts, initact" ];
+	2 -> 2 [ label = "')' / ts, last8, initts, initact" ];
+	2 -> 2 [ label = "'*' / ts, last4, initts, initact" ];
+	2 -> 2 [ label = "'+' / ts, last2, initts, initact" ];
+	2 -> 2 [ label = "'-' / ts, last3, initts, initact" ];
+	2 -> 1 [ label = "'.' / ts" ];
+	2 -> 2 [ label = "'/' / ts, last6, initts, initact" ];
+	2 -> 4 [ label = "'0'..'9' / ts, te, store1" ];
+	2 -> 2 [ label = "'^' / ts, last5, initts, initact" ];
+	3 -> 3 [ label = "'0'..'9'" ];
+	3 -> 2 [ label = "DEF / number, next1, initts, initact" ];
+	4 -> 1 [ label = "'.'" ];
+	4 -> 4 [ label = "'0'..'9' / te, store1" ];
+	4 -> 2 [ label = "DEF / number, next1, initts, initact" ];
+	ENTRY -> 2 [ label = "IN" ];
+	en_2 -> 2 [ label = "main" ];
+	1 -> eof_1 [ label = "EOF / switch" ];
+	3 -> eof_3 [ label = "EOF / number, next1" ];
+	4 -> eof_4 [ label = "EOF / number, next1" ];
+}

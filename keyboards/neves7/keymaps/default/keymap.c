@@ -25,7 +25,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_KP_0,       TG(1),          KC_KP_DOT,         ENC_PRESS
     ),
     [1] = LAYOUT(
-        KC_C,          KC_SLSH,        CL_STAR,           KC_EQL,
+        KC_C,          KC_SLSH,        CL_STAR,           CL_BACK,
         KC_7,          KC_8,           KC_9,              KC_MINS,
         KC_4,          KC_5,           KC_6,              CL_PLUS,
         KC_1,          KC_2,           KC_3,              CL_TYPE,
@@ -36,6 +36,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case CL_STAR:
+            return true;
+        case CL_PLUS:
+            return true;
+        case KC_MINS:
             return true;
         default:
             return false;
@@ -49,6 +53,18 @@ void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
               calcInput('^');
             else
               calcInput('*');
+            break;
+        case KC_MINS:
+            if(shifted)
+              calcInput('(');
+            else
+              calcInput('-');
+            break;
+        case CL_PLUS:
+            if(shifted)
+              calcInput(')');
+            else
+              calcInput('+');
             break;
         default:
             if (shifted) {

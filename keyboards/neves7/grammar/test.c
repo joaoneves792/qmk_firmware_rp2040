@@ -64,12 +64,21 @@ char *my_dtostrf( double val,  int8_t char_num, uint8_t precision, char *chr_buf
   }
 
 
+  i = (int)val;
+  j = 0;
+  while (i / 10 > 0){
+    i = i / 10;
+    j++;
+  }
+
   // no native exponential function for int
-  j=1;
-  for(i=0; i < (char_num - precision - 3 );i++) j *= 10;
+  //j=1;
+  //for(i=0; i < (char_num - precision - 3 );i++) j *= 10;
   
+
   // Hackish fail-fast behavior for larger-than-what-can-be-printed values, countig the precision + sign ('-') +'.' + '\0'
-  if (val >= (double)(j))
+  //if (val >= (double)(j))
+  if ( j > char_num - precision -3 )
   {
     // not enough space
     // strcpy(chr_buffer, "ovf"); - this is very byte consuming (388 bytes) , so we go for the cheap array
@@ -183,7 +192,7 @@ int main() {
    }
    buffer[20-1] = 0;
    if (!calculate(parser, inbuffer, &context) && !context.error) {
-      my_dtostrf(context.result, 20, 10, buffer);
+      my_dtostrf(context.result, 19, 4, buffer);
       printf("%s", buffer);
    } else {
      printf("Error: Invalid input.\n");

@@ -2,10 +2,14 @@
 
 machine formula;
 
+action number { Parse(parser, LITERAL, atof(ts), context); }
+number = (
+    ('.'[0-9]+)|([0-9]+('.'[0-9]+)?)
+) %number;
+
 main := |*
 
-([0-9]+('.'[0-9]+)?)     { Parse(parser, LITERAL, atof(ts), context); };
-('.'[0-9]+)              { Parse(parser, LITERAL, atof(ts), context); };
+number                   {};
 '+'                      { Parse(parser, ADD, 0, context); };
 '-'                      { Parse(parser, SUB, 0, context); };
 '*'                      { Parse(parser, MUL, 0, context); };
@@ -14,7 +18,6 @@ main := |*
 '('                      { Parse(parser, LPAREN, 0, context); };
 ")"                      { Parse(parser, RPAREN, 0, context); };
 space                    { /* ignore whitespace */ };
-any                      { return 0; };
 
 *|;
 

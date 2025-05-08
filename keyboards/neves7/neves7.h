@@ -26,6 +26,7 @@ enum rubi_keycodes {
     CL_STAR,
     CL_TYPE,
     CL_ENTER,
+    CL_BACK,
     CL_CARRET
 };
 
@@ -70,4 +71,4 @@ uint16_t handle_encoder_press(void);
 
 void calcUpdate(void);
 void calcInput(char input);
-void calcOperands(void);
+void calcBack(void);
