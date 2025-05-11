@@ -9,6 +9,8 @@ extern void _set_color(int index, uint8_t r, uint8_t g, uint8_t b);
 
 extern void process_backlight(uint8_t devid, volatile LED_TYPE* states);
 
+extern void init_rgb(void);
+
 static void flush(void)
 {
     process_backlight(0, NULL);
@@ -28,6 +30,7 @@ static void set_color_all(uint8_t r, uint8_t g, uint8_t b) {
 
 void init(void) {
   dprint("init rgb_matrix_driver\n");
+  init_rgb();
 }
 
 const rgb_matrix_driver_t rgb_matrix_driver = {

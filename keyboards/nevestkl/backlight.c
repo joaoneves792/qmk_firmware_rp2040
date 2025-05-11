@@ -19,6 +19,9 @@
 #define I2C_SCL_IN readPin(I2C_SCL)
 #define I2C_SDA_IN readPin(I2C_SDA)
 
+#undef I2C_TIMEOUT
+#define I2C_TIMEOUT     10
+
 //#define I2C_SCL_HI  do { setPinOutput(I2C_SCL); writePinHigh(I2C_SCL); } while (0)
 //#define I2C_SCL_LO  do { setPinOutput(I2C_SCL); writePinLow(I2C_SCL); } while (0)
 //#define I2C_SCL_HIZ do { setPinInputHigh(I2C_SCL); } while (0)
@@ -165,11 +168,12 @@ extern uint8_t is_orgb_mode;
 //    return 0;
 //}
 
-static void i2c_write_reg(uint8_t devid, uint8_t reg, uint8_t data)
+static void i2c_write_reg(uint8_t devid, uint8_t reg, uint8_t data, int ln)
 {
 
-    //uprintf("%d I2C_TIMEOUT, %d I2C_STATUS_TIMEOUT, %d I2C_STATUS_ERROR, %d I2C_STATUS_SUCCESS\n", I2C_TIMEOUT, I2C_STATUS_TIMEOUT, I2C_STATUS_ERROR, I2C_STATUS_SUCCESS);
-    i2c_write_register(devid, reg, &data, 1, I2C_TIMEOUT);
+    if (i2c_write_register(devid, reg, &data, 1, I2C_TIMEOUT) == I2C_STATUS_TIMEOUT){
+      dprintf("%d i2cTimeout %d %d %d\n", ln, devid, reg, data);
+    }
     //uprintf("status: %d\n", s);
     //uint8_t i2c_data[2];
     //
@@ -182,40 +186,47 @@ static void i2c_write_reg(uint8_t devid, uint8_t reg, uint8_t data)
 static void reset_rgb(int devid)
 {
     dprint("reset rgb starting\n");
-    i2c_write_reg(devid, 0xFD, 0x0B);
+    i2c_write_reg(devid, 0xFD, 0x0B, __LINE__);
 
-    i2c_write_reg(devid, 0x0A, 0x00);
-    i2c_write_reg(devid, 0x00, 0x00);
-    i2c_write_reg(devid, 0x01, 0x10);
-    i2c_write_reg(devid, 0x05, 0x00);
-    i2c_write_reg(devid, 0x06, 0x00);
-    i2c_write_reg(devid, 0x08, 0x00);
-    i2c_write_reg(devid, 0x09, 0x00);
-    i2c_write_reg(devid, 0x0B, 0x00);
-    i2c_write_reg(devid, 0x0D, 0x0F);
-    i2c_write_reg(devid, 0x0E, 0x01);
-    i2c_write_reg(devid, 0x14, 68);
-    i2c_write_reg(devid, 0x15, 128);
-    i2c_write_reg(devid, 0x0F, 153);
+    i2c_write_reg(devid, 0x0A, 0x00, __LINE__);
+    i2c_write_reg(devid, 0x00, 0x00, __LINE__);
+    i2c_write_reg(devid, 0x01, 0x10, __LINE__);
+    i2c_write_reg(devid, 0x05, 0x00, __LINE__);
+    i2c_write_reg(devid, 0x06, 0x00, __LINE__);
+    i2c_write_reg(devid, 0x08, 0x00, __LINE__);
+    i2c_write_reg(devid, 0x09, 0x00, __LINE__);
+    i2c_write_reg(devid, 0x0B, 0x00, __LINE__);
+    i2c_write_reg(devid, 0x0D, 0x0F, __LINE__);
+    i2c_write_reg(devid, 0x0E, 0x01, __LINE__);
+    i2c_write_reg(devid, 0x14, 68, __LINE__);
+    i2c_write_reg(devid, 0x15, 128, __LINE__);
+    i2c_write_reg(devid, 0x0F, 153, __LINE__);
 
-    i2c_write_reg(devid, 0xFD, 0);
+    i2c_write_reg(devid, 0xFD, 0, __LINE__);
     for (int32_t i = 0; i < 0x10; i++)
-        i2c_write_reg(devid, i, 0xFF);
+        i2c_write_reg(devid, i, 0xFF, __LINE__);
     /* skip blink control 0x10~0x1F as reset 0 */
     for (int32_t i = 0x20; i < 0xA0; i++)
-        i2c_write_reg(devid, i, 0);
+        i2c_write_reg(devid, i, 0, __LINE__);
 
-    i2c_write_reg(devid, 0xFD, 1);
+    i2c_write_reg(devid, 0xFD, 1, __LINE__);
     for (int32_t i = 0; i < 0x10; i++)
-        i2c_write_reg(devid, i, 0xFF);
+        i2c_write_reg(devid, i, 0xFF, __LINE__);
     /* skip blink control 0x10~0x1F as reset 0 */
     for (int32_t i = 0x20; i < 0xA0; i++)
-        i2c_write_reg(devid, i, 0);
+        i2c_write_reg(devid, i, 0, __LINE__);
 
-    i2c_write_reg(devid, 0xFD, 0xB);
-    i2c_write_reg(devid, 0x0A, 1);
+    i2c_write_reg(devid, 0xFD, 0xB, __LINE__);
+    i2c_write_reg(devid, 0x0A, 1, __LINE__);
     dprint("reset rgb done\n");
 }
+
+void init_rgb(void){
+  i2c_init();
+  reset_rgb(0xE8);
+  reset_rgb(0xEE);
+}
+
 
 #ifdef USE_FRAMEBUFFER
 // EE chip
@@ -371,17 +382,17 @@ static void set_pwm(uint8_t dev, uint8_t addr, uint8_t value)
     /* >=0x80 for frame 2 otherwise frame 1 */
     if (addr >= 0x80) {
         if (sel_frame[sel_frame_idx] != 1) {
-            i2c_write_reg(dev, 0xFD, 1);
+            i2c_write_reg(dev, 0xFD, 1, __LINE__);
             sel_frame[sel_frame_idx] = 1;
         }
         addr -= 0x80;
     }
     else if (sel_frame[sel_frame_idx] != 0) {
-        i2c_write_reg(dev, 0xFD, 0);
+        i2c_write_reg(dev, 0xFD, 0, __LINE__);
         sel_frame[sel_frame_idx] = 0;
     }
 
-    i2c_write_reg(dev, addr + 0x20, value);
+    i2c_write_reg(dev, addr + 0x20, value, __LINE__);
 }
 
 static void _set_color_direct(int index, uint8_t r, uint8_t g, uint8_t b)
@@ -437,11 +448,8 @@ void process_backlight(uint8_t devid, volatile LED_TYPE *states)
     {
         case 0: /* init RGB chips */
             dprint("init rgb\n");
-            i2c_init();
-            //i2c_set_baudrate(i2c1, 100000);
             
-            reset_rgb(0xE8);
-            reset_rgb(0xEE);
+            init_rgb();
 
             state = 1;
             dprint("rgb ready\n");

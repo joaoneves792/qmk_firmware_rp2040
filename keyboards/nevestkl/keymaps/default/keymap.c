@@ -30,6 +30,18 @@ enum custom_keycodes {
     KC_VIMC8,
     KC_VIMC9,
     KC_DBELL,
+    KC_SHELLY1,
+    KC_SHELLY2,
+    KC_ESPREG0,
+    KC_ESPREG1,
+    KC_ESPREG2,
+    KC_ESPREG3,
+    KC_ESPREG4,
+    KC_ESPREG5,
+    KC_ESPREG6,
+    KC_ESPREG7,
+    KC_ESPREG8,
+    KC_ESPREG9,
     QK_SA,
 };
 
@@ -45,8 +57,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO, KC_NO, KC_NO, KC_PSCR, KC_SCRL, KC_PAUS, KC_DEL, KC_INS, KC_HOME, KC_PGUP, KC_DEL, KC_END, KC_PGDN
     ),
     [_FN] = LAYOUT(
-        QK_REBOOT, QK_BOOTLOADER, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        QK_REBOOT, QK_BOOTLOADER, _______, _______, _______, _______, _______, _______, _______, _______, _______, QK_OUTPUT_USB, QK_OUTPUT_BLUETOOTH, 
+        _______, KC_ESPREG1, KC_ESPREG2, KC_ESPREG3, KC_ESPREG4, KC_ESPREG5, KC_ESPREG6, KC_ESPREG7, KC_ESPREG8, KC_ESPREG9, KC_ESPREG0, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         TG(_ESP), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______,TG(_VIM), _______, _______, _______, _______, _______, _______, _______, _______,
@@ -54,8 +66,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_ESP] = LAYOUT(
-        KC_DBELL, KC_F1, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        KC_DBELL, KC_SHELLY1, KC_SHELLY2, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
+        _______, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         TG(_ESP), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, KC_V, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -74,6 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 const uint8_t keycode_to_ascii_lut[58] PROGMEM = {0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 0x0D, 0x1B, 0x08, 0x09, ' ', '-', '=', '[', ']', '\\', '#', ';', '\'', '`', ',', '.', '/'};
+#define SEND_STRING_ESP(str)  for(int esplen = 0; esplen < strlen(str); esplen++){ uart_write(str[esplen]); }; 
 
 bool process_vimcount(uint16_t keycode, keyrecord_t *record) {
     if(!record->event.pressed && (QK_IS_BASIC(keycode) )){
@@ -168,15 +181,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             process_doom();
           }
           return false;
-      /*case KC_REP:
-          process_repeat_key(record->event.pressed);
-          return false;
-      case KC_RREP:
+      case KC_SHELLY1:
           if (record->event.pressed){
-            repeat_use_register = !repeat_use_register;
+            SEND_STRING_ESP("shelly 1;");
           }
           return false;
-      */
+      case KC_SHELLY2:
+          if (record->event.pressed){
+            SEND_STRING_ESP("shelly 2;");
+          }
+          return false;
+      case KC_ESPREG0:
+      case KC_ESPREG1:
+      case KC_ESPREG2:
+      case KC_ESPREG3:
+      case KC_ESPREG4:
+      case KC_ESPREG5:
+      case KC_ESPREG6:
+      case KC_ESPREG7:
+      case KC_ESPREG8:
+      case KC_ESPREG9:
+        if (record->event.pressed){
+          char buffer[32];
+          snprintf(buffer, 32, ">k get %d;", keycode - KC_ESPREG0);
+          SEND_STRING_ESP(buffer);
+        }
+        return false;
       case KC_VIMC0:
       case KC_VIMC1:
       case KC_VIMC2:

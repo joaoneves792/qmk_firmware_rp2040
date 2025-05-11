@@ -26,7 +26,12 @@ extern uint8_t rgb_current_layer;
 static bool STATIC_WHITE(effect_params_t* params) {
   RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
-#define F1 (g_led_config.matrix_co[0][1])
+#define F1 1
+#define F2 2
+#define F11 11
+#define F12 12
+#define NUM1 17
+#define NUM0 26
 #define PSCR 13
 #define SRLK 14
 #define PAUS 15
@@ -54,12 +59,20 @@ static bool STATIC_WHITE(effect_params_t* params) {
     }else if (rgb_current_layer == _FN){
       if (i == F1){
         rgb_matrix_set_color(i, 0xff, 0x33, 0x33);
+      }else if (i == F11){
+        rgb_matrix_set_color(i, 0x33, 0x33, 0x00);
+      }else if (i == F12){
+        rgb_matrix_set_color(i, 0x00, 0x00, 0x33);
+      }else if (i >= NUM1 && i <= NUM0){
+        rgb_matrix_set_color(i, 0x00, 0x00, 0xff);
       }else{
         rgb_matrix_set_color(i, 0x33, 0x33, 0xff);
       }
     }else if (rgb_current_layer == _ESP){
       if (i == GRV && blink){
         rgb_matrix_set_color(i, 0x00, 0x00, 0xff);
+      }else if (i == F1 || i == F2){
+        rgb_matrix_set_color(i, 0x33, 0x33, 0x00);
       }else{
         rgb_matrix_set_color(i, 0xff, 0xff, 0xff);
       }

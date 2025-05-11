@@ -8,12 +8,16 @@
         "bootmagic": true,
         "command": false,
         "console": true,
-        "extrakey": true,
-        "mousekey": true,
+        "extrakey": false,
+        "mousekey": false,
         "encoder": false,
         "nkro": true,
         "oled": false,
-        "rgb_matrix": true
+        "rgb_matrix": true,
+        "bluetooth": true
+    },
+    "bluetooth": {
+      "driver": "custom"
     },
     "rgb_matrix": {
         "default": {
