@@ -36,9 +36,10 @@ static bool STATIC_WHITE(effect_params_t* params) {
 #define SRLK 14
 #define PAUS 15
 #define GRV 16
+#define ENDK 48
 #define blink (g_rgb_timer & (0x1 << 9))
   for (uint8_t i = led_min; i < led_max; i++) {
-    if(i == PSCR || i == SRLK || i == PAUS){
+    if(i == PSCR || i == SRLK || i == PAUS || i == ENDK){
       rgb_matrix_set_color(i, 0x0, 0x0, 0x0);
       continue;
     }

@@ -14,6 +14,8 @@
 uint8_t rgb_current_layer = _BL;
 uint8_t g_vim_count = 0;
 
+extern keyrecord_t last_record;
+extern uint8_t     last_mods;
 
 enum custom_keycodes {
     QMKDOOM = SAFE_RANGE,
@@ -60,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         QK_REBOOT, QK_BOOTLOADER, _______, _______, _______, _______, _______, _______, _______, _______, _______, QK_OUTPUT_USB, QK_OUTPUT_BLUETOOTH, 
         _______, KC_ESPREG1, KC_ESPREG2, KC_ESPREG3, KC_ESPREG4, KC_ESPREG5, KC_ESPREG6, KC_ESPREG7, KC_ESPREG8, KC_ESPREG9, KC_ESPREG0, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        TG(_ESP), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        TG(_ESP), _______, UG_TOGG, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______,TG(_VIM), _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -144,14 +146,24 @@ bool process_esp(uint8_t keycode, keyrecord_t *record){
     if (!(record->event.pressed) && keycode < 58){
       uint8_t ascii = keycode_to_ascii_lut[(uint8_t)keycode];
 
+      //Order is important! 
+      //(Ctrl+Alt+P = DLE)
+      //(Ctrl+Alt+Q = DC1)
+      //(Ctrl+Alt+R = DC2)
+      if (get_mods() & MOD_MASK_CTRL){
+        ascii &= 0b00001111; 
+      }
+      if (get_mods() & MOD_BIT(KC_RALT)){
+        ascii ^= 0b00010000;
+      }
+      if (get_mods() & MOD_BIT(KC_LALT)){
+        ascii ^= 0b00010000;
+      }
       if (get_mods() & MOD_BIT(KC_LSFT)){
         ascii ^= 0b00100000;
       }
       if (get_mods() & MOD_BIT(KC_RSFT)){
-        ascii ^= 0b00010000;
-      }
-      if (get_mods() & MOD_MASK_CTRL){
-        ascii &= 0b00001111; 
+        ascii ^= 0b00100000;
       }
       uart_write(ascii);
     }
@@ -219,9 +231,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case KC_VIMC9:
         g_vim_count = keycode - KC_VIMC0;
         layer_off(_VIM);
-        return false;
       default:
-        return process_vimcount(keycode, record);
+        return true;
     }
     return true;
 };
@@ -238,8 +249,30 @@ void keyboard_post_init_user(void) {
 void housekeeping_task_user(void) {
   if ( uart_available()){
     uint8_t c = uart_read();
-    send_char(c); 
+    if(c == 0x12){ //DC2 -> mouse
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("%c" , uart_read());
+      uprintf("\n");
+    }else{
+      send_char(c); 
+    }
   }
+  //if( g_vim_count > 0){
+  //  g_vim_count--;
+  //  register_weak_mods(last_mods);
+  //  process_record(&last_record);
+  //  unregister_weak_mods(last_mods);
+  //}
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
