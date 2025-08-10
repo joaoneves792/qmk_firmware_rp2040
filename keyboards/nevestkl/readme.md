@@ -8,7 +8,26 @@
 * Hardware Supported: rp2040
 * Hardware Availability: none, this is handwired
 
-This is a modded gmmk v1 tkl, with rp2040 microcontroller.
+This is a modded gmmk v1 tkl.
+- rp2040 qmk keyboard and usb controller
+- esp32s3 for displays / shell / wifi / ble / sdcard
+- nrf52840 for esb/gazell and other 2.4Ghz protocols
+
+repos for esp32 and nrf firmware:
+
+[esp32 - tkldisp](https://github.com/joaoneves792/tkldisp)
+
+[nrf52 - tklnrf52](https://github.com/joaoneves792/tklnrf52)
+
+rp2040:
+![20250810_083143](https://github.com/user-attachments/assets/65aa5497-ddd2-4a46-87b6-1cd5fdae91ca)
+
+esp32:
+![20250810_082833](https://github.com/user-attachments/assets/76ec41cf-9a4c-4675-a16c-8d486553a0db)
+
+nrf52:
+![20250810_092316](https://github.com/user-attachments/assets/9d95dcd2-1121-414a-8cef-59c20278490e)
+
 
 
 Make example for this keyboard (after setting up your build environment):
