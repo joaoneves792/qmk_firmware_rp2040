@@ -1,3 +1,11 @@
+# rp2040 (Fork of qmk)
+
+Fork to add support for my custom keyboards based on rp2040.
+
+[nevestkl](keyboards/nevestkl)
+
+[neves7](keyboards/neves7)
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
