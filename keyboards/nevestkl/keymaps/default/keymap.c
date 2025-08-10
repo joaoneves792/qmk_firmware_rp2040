@@ -3,6 +3,7 @@
 
 #include QMK_KEYBOARD_H
 #include "uart.h"
+#include "raw_hid.h"
 
 #define QK_IS_BASIC(kc) (kc > QK_BASIC && kc <= QK_BASIC_MAX)
 
@@ -246,23 +247,36 @@ void keyboard_post_init_user(void) {
   //debug_mouse=true;
 }
 
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+    // Your code goes here
+    // `data` is a pointer to the buffer containing the received HID report
+    // `length` is the length of the report - always `RAW_EPSIZE`
+    for(uint8_t i = 0; i < length; i++){
+      if(data[i] == 0){
+        break;
+      }
+      //raw_hid_send(data, length);
+      uart_write(data[i]);
+    }
+}
+
 void housekeeping_task_user(void) {
+  static uint32_t last_mouse_report = 0;
   if ( uart_available()){
     uint8_t c = uart_read();
     if(c == 0x12){ //DC2 -> mouse
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("%c" , uart_read());
-      uprintf("\n");
+      report_mouse_t mr;
+      mr.buttons = uart_read();
+      mr.x = ((uint16_t)uart_read() << 8 ) | uart_read();
+      mr.y = ((uint16_t)uart_read() << 8 ) | uart_read();
+      mr.v = uart_read();
+      mr.h = 0;
+      if(last_mouse_report + 8 < timer_read32()){
+        host_mouse_send(&mr);
+        last_mouse_report = timer_read32();
+      }
+    }else if(c == 0x13){ //DC3 -> qmk console
+      uprintf("%c", uart_read());
     }else{
       send_char(c); 
     }

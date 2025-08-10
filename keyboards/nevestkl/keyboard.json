@@ -14,7 +14,8 @@
         "nkro": true,
         "oled": false,
         "rgb_matrix": true,
-        "bluetooth": true
+        "bluetooth": true,
+        "raw": true
     },
     "bluetooth": {
       "driver": "custom"

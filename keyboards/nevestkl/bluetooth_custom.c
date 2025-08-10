@@ -30,6 +30,7 @@ void bluetooth_task(void) {}
 void bluetooth_send_keyboard(report_keyboard_t *report)
 {
     uart_write(0x10); //ASCII DLE (data link escape)
+    uart_write(0x1); //Keyboard
     uart_write(report->mods);
     const uint8_t keyboard_report_keys_count = 6;
     for (uint8_t i = 0; i < keyboard_report_keys_count; i++) {
@@ -37,7 +38,21 @@ void bluetooth_send_keyboard(report_keyboard_t *report)
     }
 }
 
-void bluetooth_send_mouse(report_mouse_t *report) { }
+void bluetooth_send_mouse(report_mouse_t *report)
+{
+    //uint8_t xpartA = (uint8_t)((report->x & 0xFF00) >> 8);
+    //uint8_t xpartB = (uint8_t)(report->x & 0x00FF);
+    //uint8_t ypartA = (uint8_t)((report->y & 0xFF00) >> 8);
+    //uint8_t ypartB = (uint8_t)(report->y & 0x00FF);
+    uart_write(0x10); //ASCII DLE (data link escape)
+    uart_write(0x2); //Mouse
+    //uart_write(report->buttons);
+    //uart_write(xpartA);
+    //uart_write(xpartB);
+    //uart_write(ypartA);
+    //uart_write(ypartB);
+    //uart_write((uint8_t)report->v);
+}
 
 /*
 +-----------------+-------------------+-------+

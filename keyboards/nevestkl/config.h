@@ -13,7 +13,7 @@
 
 #define SERIAL_USART_DRIVER vendor
 #define SERIAL_PIO_USE_PIO1 // Force the usage of PIO1 peripheral, by default the Serial implementation uses the PIO0 peripheral
-#define SERIAL_USART_TIMEOUT 20    // USART driver timeout. default 20
+#define SERIAL_USART_TIMEOUT 50    // USART driver timeout. default 20
 #define SERIAL_USART_SPEED 9600
 #define SERIAL_USART_FULL_DUPLEX   // Enable full duplex operation mode.
 #define SERIAL_USART_TX_PIN GP16     // USART TX pin
@@ -44,5 +44,11 @@
 #define USE_FRANMEBUFFER
 
 #define NO_AUTO_SHIFT_ALPHA
+
+#define MOUSE_EXTENDED_REPORT
+
+#define RAW_USAGE_PAGE 0xFF60
+#define RAW_USAGE_ID 0x01
+
 
 #include "config_led.h"
