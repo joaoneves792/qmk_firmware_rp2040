@@ -2,13 +2,26 @@
 
 ![neves7](imgur.com image replace me!)
 
-*A short description of the keyboard/project*
+rp2040 based numpad
+- 3d-printed and handwired on a perfboard
+- USB-C
+- 3xUSB-A hub
+- OLED Display with calculator/converter
+- Encoder Knob for volume/brightness
 
 * Keyboard Maintainer: [joaoneves792](https://github.com/joaoneves792)
 * Hardware Supported: rp2040
 * Hardware Availability: none, this is handwired
 
+
+![20241207_210919](https://github.com/user-attachments/assets/1cefce3d-09f2-4ca3-9888-4cc77338a2cc)
+
+![20241201_164906](https://github.com/user-attachments/assets/df5c5c56-7d3f-413c-a911-1d61984d37b2)
+
+![20241117_215821](https://github.com/user-attachments/assets/a927122e-9ecf-452a-afbc-a1d9985ee689)
+
 Make example for this keyboard (after setting up your build environment):
+
 
     make neves7:default
 
